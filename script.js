@@ -13,7 +13,7 @@ let currentDate = $("#currentDay");
 
 
 function displayTime() {
-    let rightNow = moment().format("dddd");
+    let rightNow = moment().format("LLLL");
     currentDate.text(rightNow);
   }
 
