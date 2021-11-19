@@ -7,6 +7,37 @@ let currentHour = moment().format("H")
 
 let hourDescription = [];
 
+function init() {
+    description.each(function(){
+        let thisDescription = $(this)
+        let thisHour = parseInt(thisDescription.attr("data-hour"));
+
+        let detailsByTime = {
+            hour: thisHour,
+            text: "",
+        };
+        hourDescription.push(detailsByTime);
+    })
+
+    localStorage.setItem("description", JSON.stringify(hourDescription));
+
+    renderDescription();
+
+}
+
+// function init() {
+//     // Get stored todos from localStorage
+//     let storedDetails = JSON.parse(localStorage.getItem("description"));
+  
+//     // If todos were retrieved from localStorage, update the todos array to it
+//     if (storedDetails !== null) {
+//       todos = storedTodos;
+//     }
+  
+//     // This is a helper function that will render todos to the DOM
+//     renderTodos();
+//   }
+
 
 
 function renderDescription() {
@@ -17,18 +48,11 @@ function renderDescription() {
         let itemHour = hourDescription[i].hour;
         let itemText = hourDescription[i].text;
 
-        $("[data-hour=" + itemHour + "]").children("textarea").val(itemText);        
+        $("[data-hour=" + itemHour + "]").val(itemText);        
     }
 
-
-
-    let timeDescription = localStorage.getItem("description");
+    console.log(hourDescription)
   
-    if (!timeDescription) {
-      return;
-    }
-  
-    description.textContent = timeDescription;
   }
 
 
@@ -47,23 +71,27 @@ function hourColor() {
     })
 };
 
-
-
-
 saveBtn.on("click", function(event) {
     event.preventDefault();
     let $target = $(event.target)
-if ($target.is("i")) {
-    $target = $target.parent()
-}
+    if ($target.is("i")) {
+        $target = $target.parent()
+    }
 
     let $description = $target.siblings("textarea")
     console.log($description.val());
 
-    timeSlot = $target.value
+    timeSlot = $target.siblings("textarea").attr("data-hour")
 
-  console.log(event.target)
-      localStorage.setItem("description", $description.val());
+    for (let i = 0; i < hourDescription.length; i++) {
+        if (hourDescription[i].hour == timeSlot) {
+            hourDescription[i].text = $description.val()
+        }
+        
+    }
+console.log(JSON.stringify(hourDescription))
+  console.log(timeSlot)
+      localStorage.setItem("description", JSON.stringify(hourDescription));
       renderDescription();
     });
 
@@ -73,6 +101,15 @@ function displayTime() {
     currentDate.text(rightNow);
   }
 
-hourColor()
+function startPage(){
+    hourColor();
+    if (!localStorage.getItem("description")){
+        init()
+    } else {
+        renderDescription()
+    }
+}
+
+startPage()
 
 setInterval(displayTime, 1000)
