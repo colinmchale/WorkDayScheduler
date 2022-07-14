@@ -6,6 +6,8 @@ This calendar application has the ability to store your information about your d
 
 The schedule will also be updated constantly to display the curent hour of the day. Past hours will de displayed in Grey, the current hour will be displayed in Green, and the hours to come will be Red. The current date is also available at the top under the header.
 
+*Starter Code provided by Southern Methodist University Full Stack Web Development Bootcamp
+
 ![Work Day Scheduler Preview](/SchedulerPreview.png)
 
 [Link to Deployed Application](https://colinmchale.github.io/WorkDayScheduler/)
